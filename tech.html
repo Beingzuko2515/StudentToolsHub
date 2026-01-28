@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student ToolHub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {margin:0;font-family:Arial, sans-serif;background:#f5f7fb;color:#222;}
+  header {background:#4f46e5;color:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:1000;}
+  nav a {color:white;margin-left:15px;text-decoration:none;font-weight:600;margin-top:5px;}
+  .container {padding:20px;}
+  .hero {text-align:center;padding:40px 10px;}
+  .hero h1 {font-size:36px;margin-bottom:10px;}
+  .hero p {font-size:16px;max-width:600px;margin:auto;}
+  .btn {display:inline-block;margin-top:20px;padding:10px 20px;background:#4f46e5;color:white;border-radius:6px;text-decoration:none;font-weight:600;}
+  .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:30px;}
+  .card {background:white;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.08);text-align:center;}
+  .card h3 {margin-bottom:10px;}
+  footer {background:#111;color:#aaa;text-align:center;padding:15px;margin-top:50px;}
+  .tool-box {max-width:100%;margin:auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.08);}
+  input, button, textarea, select {width:100%;padding:10px;margin-top:10px;border-radius:5px;border:1px solid #ccc;box-sizing:border-box;}
+  button {background:#4f46e5;color:white;font-weight:600;border:none;cursor:pointer;}
+  textarea {resize:none;}
+  @media(max-width:500px){
+    header {flex-direction:column;align-items:flex-start;}
+    nav {width:100%;display:flex;flex-wrap:wrap;}
+    nav a {margin-left:0;margin-right:15px;}
+  }
+
+  /* Privacy Modal */
+  #privacyModal {
+    position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);
+    display:flex;justify-content:center;align-items:center;z-index:2000;
+    display:none;
+  }
+  #privacyContent {
+    background:white;padding:20px 30px;border-radius:10px;max-width:500px;width:90%;max-height:80%;overflow-y:auto;text-align:left;
+  }
+  #privacyContent h2{margin-top:0;text-align:center;}
+  #privacyContent button{margin-top:15px;width:48%;margin-right:4%;}
+  #privacyContent button:last-child{margin-right:0;background:#ef4444;}
+</style>
+</head>
+<body>
+
+<header>
+  <h2>Student ToolHub</h2>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#tools">Tools</a>
+  </nav>
+</header>
+
+<section id="home" class="container">
+  <div class="hero">
+    <h1>Welcome to Student ToolHub 🎓</h1>
+    <p>Your all-in-one smart platform for student tools like calculators, timers, planners, and productivity utilities — fully mobile-optimized.</p>
+    <a href="#tools" class="btn">Explore Tools</a>
+  </div>
+</section>
+
+<section id="tools" class="container">
+  <h2 style="text-align:center;">Student Tools 🛠</h2>
+  <div class="grid">
+    <!-- All tool cards (same as previous code) -->
+    <!-- Calculator -->
+    <div class="card">
+      <h3>🧮 Basic Calculator</h3>
+      <div class="tool-box">
+        <input type="text" id="calcDisplay" readonly style="text-align:right;font-size:18px;">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;">
+          <button onclick="press('7')">7</button>
+          <button onclick="press('8')">8</button>
+          <button onclick="press('9')">9</button>
+          <button onclick="press('/')">÷</button>
+          <button onclick="press('4')">4</button>
+          <button onclick="press('5')">5</button>
+          <button onclick="press('6')">6</button>
+          <button onclick="press('*')">×</button>
+          <button onclick="press('1')">1</button>
+          <button onclick="press('2')">2</button>
+          <button onclick="press('3')">3</button>
+          <button onclick="press('-')">−</button>
+          <button onclick="press('0')">0</button>
+          <button onclick="press('.')">.</button>
+          <button onclick="calculate()">=</button>
+          <button onclick="press('+')">+</button>
+          <button onclick="clearCalc()" style="grid-column: span 4;background:#ef4444;">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Calculator -->
+    <div class="card">
+      <h3>📚 Attendance Calculator</h3>
+      <div class="tool-box">
+        <input type="number" id="present" placeholder="Days Present">
+        <input type="number" id="days" placeholder="Total Days">
+        <button onclick="calcAttend()">Calculate</button>
+        <p id="attResult"></p>
+      </div>
+    </div>
+
+    <!-- Pomodoro Timer -->
+    <div class="card">
+      <h3>🍅 Pomodoro Timer</h3>
+      <div class="tool-box">
+        <button onclick="startPomodoro()">Start 25 min Focus</button>
+        <p id="pomoDisplay">Ready</p>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card">
+      <h3>📝 Notes</h3>
+      <div class="tool-box">
+        <textarea id="noteText" placeholder="Write note" style="height:80px;"></textarea>
+        <button onclick="saveNote()">Save</button>
+        <p id="noteResult"></p>
+      </div>
+    </div>
+
+    <!-- To-Do List -->
+    <div class="card">
+      <h3>✅ To-Do List</h3>
+      <div class="tool-box">
+        <input type="text" id="todoInput" placeholder="New Task">
+        <button onclick="addTodo()">Add</button>
+        <ul id="todoList"></ul>
+      </div>
+    </div>
+
+    <!-- GPA Calculator -->
+    <div class="card">
+      <h3>🎓 GPA Calculator</h3>
+      <div class="tool-box">
+        <input type="number" id="marks" placeholder="Total Marks">
+        <button onclick="calcGPA()">Calculate GPA</button>
+        <p id="gpaResult"></p>
+      </div>
+    </div>
+
+    <!-- Percentage -->
+    <div class="card">
+      <h3>📈 Percentage Calculator</h3>
+      <div class="tool-box">
+        <input type="number" id="obt" placeholder="Marks Obtained">
+        <input type="number" id="total" placeholder="Total Marks">
+        <button onclick="calcPercent()">Calculate Percentage</button>
+        <p id="result"></p>
+      </div>
+    </div>
+
+    <!-- Multiplication Table -->
+    <div class="card">
+      <h3>✖ Multiplication Table</h3>
+      <div class="tool-box">
+        <input type="number" id="tableNum" placeholder="Enter Number">
+        <button onclick="generateTable()">Generate Table</button>
+        <ul id="tableList"></ul>
+      </div>
+    </div>
+
+    <!-- Unit Converter -->
+    <div class="card">
+      <h3>🔄 Unit Converter</h3>
+      <div class="tool-box">
+        <input type="number" id="convInput" placeholder="Enter Value">
+        <select id="convType">
+          <option value="cmToM">cm → m</option>
+          <option value="mToCm">m → cm</option>
+          <option value="kgToG">kg → g</option>
+          <option value="gToKg">g → kg</option>
+        </select>
+        <button onclick="convertUnit()">Convert</button>
+        <p id="convResult"></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Student ToolHub | Made for Students ❤️</p>
+</footer>
+
+<!-- Privacy Modal -->
+<div id="privacyModal">
+  <div id="privacyContent">
+    <h2>Privacy Policy</h2>
+    <p>Welcome to Student ToolHub! Your privacy is very important to us. We do not collect personal information without your consent. We use local storage only to improve your experience, remember your preferences, and store simple app data like notes and to-do list items.</p>
+    <p>By clicking "Accept", you agree to our use of local storage and consent to our Privacy Policy. You can clear your data anytime from your browser.</p>
+    <button onclick="acceptPrivacy()">Accept</button>
+    <button onclick="declinePrivacy()">Decline</button>
+  </div>
+</div>
+
+<script>
+  // Tools functions
+  function press(val){document.getElementById('calcDisplay').value += val;}
+  function calculate(){try{document.getElementById('calcDisplay').value = eval(document.getElementById('calcDisplay').value);}catch{document.getElementById('calcDisplay').value = 'Error';}}
+  function clearCalc(){document.getElementById('calcDisplay').value = '';}
+  function calcAttend(){let p=document.getElementById('present').value;let d=document.getElementById('days').value;if(p&&d){document.getElementById('attResult').innerText=(p/d*100).toFixed(1)+'% Attendance';}}
+  function startPomodoro(){let time=1500;let disp=document.getElementById('pomoDisplay');let intv=setInterval(()=>{let m=Math.floor(time/60);let s=time%60;disp.innerText=m+":"+(s<10?"0":"")+s;if(time<=0){clearInterval(intv);disp.innerText="Done! Break Time 🎉";}time--;},1000);}
+  function saveNote(){document.getElementById('noteResult').innerText='Saved: '+document.getElementById('noteText').value;}
+  function addTodo(){let task=document.getElementById('todoInput').value;if(task){let li=document.createElement('li');li.innerText=task;document.getElementById('todoList').appendChild(li);document.getElementById('todoInput').value="";}}
+  function calcGPA(){let m=document.getElementById('marks').value;if(m){document.getElementById('gpaResult').innerText="GPA: "+(m/100*10).toFixed(2);}}
+  function calcPercent(){let obt=document.getElementById('obt').value;let total=document.getElementById('total').value;if(obt&&total){document.getElementById('result').innerText="Percentage: "+(obt/total*100).toFixed(2)+"%";}}
+  function generateTable(){let num=document.getElementById('tableNum').value;let list=document.getElementById('tableList');list.innerHTML="";if(num){for(let i=1;i<=10;i++){let li=document.createElement('li');li.innerText=`${num} × ${i} = ${num*i}`;list.appendChild(li);}}}
+  function convertUnit(){let val=document.getElementById('convInput').value;let type=document.getElementById('convType').value;let res=document.getElementById('convResult');if(!val){res.innerText="Enter a value!"; return;}val=parseFloat(val);switch(type){case 'cmToM':res.innerText=val/100+" m";break;case 'mToCm':res.innerText=val*100+" cm";break;case 'kgToG':res.innerText=val*1000+" g";break;case 'gToKg':res.innerText=val/1000+" kg";break;}}
+
+  // Privacy modal
+  const modal = document.getElementById('privacyModal');
+  function acceptPrivacy(){localStorage.setItem('privacyAccepted','true'); modal.style.display='none';}
+  function declinePrivacy(){alert("You must accept the Privacy Policy to use the website.");}
+
+  // Show modal on first visit
+  window.onload = function(){
+    if(!localStorage.getItem('privacyAccepted')){
+      modal.style.display='flex';
+    }
+  }
+</script>
+
+</body>
+</html>
